@@ -10,12 +10,10 @@ from io import BytesIO
 from transformers import BertTokenizer
 from transformers import BertTokenizer, BertForTokenClassification, pipeline
 from transformers import BertModel
-import torch
 import numpy as np
 import pandas as pd
 from sklearn.metrics.pairwise import cosine_similarity
 from transformers import BertModel
-import torch
 from transformers import BertTokenizer, BertModel
 from sklearn.metrics.pairwise import cosine_similarity
 from sentence_transformers import SentenceTransformer
@@ -23,17 +21,25 @@ from sklearn.metrics.pairwise import cosine_similarity
 API_ENDPOINT = 'https://sheetdb.io/api/v1/24opc9hx6djz6'
 strings = ''
 
+def room_creation():
+    response = requests.post(API_ENDPOINT)
+    return response
+
 def model():
     df = pd.read_csv('https://docs.google.com/spreadsheets/d/1Ojzc65O7XcVWXPAAKcskGuB5a9oMhM8my10JbHWGHCQ/gviz/tq?tqx=out:csv&sheet=Sheet1')
     sentences = df['about']
     model = SentenceTransformer('all-mpnet-base-v2')
     sentence_embeddings = model.encode(sentences)
-    print(sentences)
     similarity_scores = model.similarity(sentence_embeddings, sentence_embeddings)
     person = df['name']
     d = dict(zip(person, similarity_scores))
     df = pd.DataFrame(d, index = person)
-    return df
+    arr = []
+    for i in range(len((sentences))):
+        t = df.sort_values(person[i],ascending=False)
+        arr.append([t.index[0],t.index[1] + ': ' + str(t[person[i]][1]*100),t.index[2] + ': ' + str(t[person[i]][2]*100),t.index[3] + ': ' + str(100*t[person[i]][3])])
+    df_from_array = pd.DataFrame(arr)
+    return df_from_array,person
 
 
 def func(linkedin_profile_url):
@@ -43,11 +49,10 @@ def func(linkedin_profile_url):
         ipt_final = 'Working!'
         api_endpoint = 'https://nubela.co/proxycurl/api/v2/linkedin'
         linkedin_profile_url = linkedin_profile_url
-        api_key = '3hSBcrFf3CLFQ8aoUn-zXA'
+        api_key = 'mSLO0XONI_EP0KQ-hJtDvw'
         headers = {'Authorization': 'Bearer ' + api_key}
         response = requests.get(api_endpoint, params={'url': linkedin_profile_url, 'skills': 'include'}, headers=headers)
         profile_data = response.json()
-        print(len(profile_data))
         if(len(profile_data) <= 3):
             return []
         else:
@@ -92,7 +97,6 @@ def func(linkedin_profile_url):
             # Step 6: Extracting important words (nouns and adjectives)
             try:
                 important_words = [word for word, pos in pos_tags if pos.startswith('N') or pos.startswith('J')]
-                print("Important words:", important_words)
             except Exception as e:
                 print(f"Error during extraction of important words: {e}")
 
