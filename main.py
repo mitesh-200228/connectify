@@ -1,6 +1,5 @@
 import streamlit as st
 import behind_process
-import streamlit_authenticator as stauth
 import pandas as pd
 
 st.title('Connectify!')
