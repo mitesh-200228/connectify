@@ -4,20 +4,8 @@ import nltk
 from nltk.corpus import stopwords
 from nltk.tokenize import word_tokenize
 from nltk import pos_tag
-import streamlit as st
-import re
-from io import BytesIO
-from transformers import BertTokenizer
-from transformers import BertTokenizer, BertForTokenClassification, pipeline
-from transformers import BertModel
-import numpy as np
 import pandas as pd
-from sklearn.metrics.pairwise import cosine_similarity
-from transformers import BertModel
-from transformers import BertTokenizer, BertModel
-from sklearn.metrics.pairwise import cosine_similarity
 from sentence_transformers import SentenceTransformer
-from sklearn.metrics.pairwise import cosine_similarity
 API_ENDPOINT = 'https://sheetdb.io/api/v1/24opc9hx6djz6'
 strings = ''
 
