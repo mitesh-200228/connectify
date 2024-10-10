@@ -1,0 +1,7 @@
+streamlit
+pandas
+numpy
+nltk
+requests
+sentence-transformers
+json
