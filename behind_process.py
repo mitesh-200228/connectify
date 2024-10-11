@@ -36,6 +36,8 @@ def func(linkedin_profile_url):
     elif(linkedin_profile_url != ''):
         ipt_final = 'Working!'
         api_endpoint = 'https://nubela.co/proxycurl/api/v2/linkedin'
+        # data = requests.get(API_ENDPOINT)
+        # print(data)
         linkedin_profile_url = linkedin_profile_url
         api_key = 'mSLO0XONI_EP0KQ-hJtDvw'
         headers = {'Authorization': 'Bearer ' + api_key}
@@ -51,9 +53,13 @@ def func(linkedin_profile_url):
             with open("data.json", "w") as outfile:
                 json.dump(profile_data, outfile)
             summary = profile_data['summary']
-            
             API_ENDPOINT = 'https://sheetdb.io/api/v1/24opc9hx6djz6'
-
+            names = []
+            dt = requests.get(API_ENDPOINT)
+            for i in dt.json():
+                names.append(i['name'])
+            if(False != (profile_data['full_name'] in names)):
+                return []
             # Step 1: Ensure the necessary NLTK resources are available
             nltk.download('punkt')  # Tokenizer models
             nltk.download('punkt_tab')

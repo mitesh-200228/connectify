@@ -10,7 +10,7 @@ if st.button('Submit'):
     data = behind_process.func(user_input)
     print(data)
     if(data == []):
-        st.error("No data found for this profile.")
+        st.error("No data found for this profile or user already exist, try different profile.")
     else:
         dt,person = behind_process.model()
         new_row = pd.Series(['Main Person','Most Matched Person','2nd Most Matched Person','3rd Most Matched Person'],index=dt.columns)
